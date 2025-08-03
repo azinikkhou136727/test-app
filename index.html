@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه آزمون آنلاین</title>
+    
+    <!-- Bootstrap 5 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    
+    <!-- Persian Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="stylesheet" href="src/styles/auth.css">
+    <link rel="stylesheet" href="src/styles/dashboard.css">
+    <link rel="stylesheet" href="src/styles/exam.css">
+    <link rel="stylesheet" href="src/styles/admin.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>در حال بارگذاری...</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main-content" style="display: none;">
+            <!-- Navigation -->
+            <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm" style="display: none;">
+                <div class="container">
+                    <a class="navbar-brand fw-bold text-primary" href="#" id="nav-brand">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        سامانه آزمون
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="nav-dashboard">داشبورد</a>
+                            </li>
+                            <li class="nav-item" id="nav-admin-link" style="display: none;">
+                                <a class="nav-link" href="#" id="nav-admin">پنل مدیریت</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <button class="btn btn-outline-secondary btn-sm me-2" id="theme-toggle">
+                                    <i class="fas fa-moon" id="theme-icon"></i>
+                                </button>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user me-1"></i>
+                                    <span id="user-name">کاربر</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" id="logout-btn">خروج</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content -->
+            <main id="page-content">
+                <!-- Auth Pages -->
+                <div id="auth-page" class="min-vh-100">
+                    <!-- Login Form -->
+                    <div id="login-form" class="auth-container">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                                <h2 class="auth-title">ورود به سامانه</h2>
+                                <p class="auth-subtitle">برای ادامه وارد حساب کاربری خود شوید</p>
+                            </div>
+                            
+                            <form id="login-form-element">
+                                <div class="mb-3">
+                                    <label for="login-email" class="form-label">ایمیل</label>
+                                    <input type="email" class="form-control" id="login-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="login-password" class="form-label">رمز عبور</label>
+                                    <input type="password" class="form-control" id="login-password" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember-me">
+                                    <label class="form-check-label" for="remember-me">مرا به خاطر بسپار</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mb-3">ورود</button>
+                            </form>
+                            
+                            <div class="auth-footer">
+                                <p>حساب کاربری ندارید؟ <a href="#" id="show-register">ثبت نام کنید</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="register-form" class="auth-container" style="display: none;">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                                <h2 class="auth-title">ثبت نام</h2>
+                                <p class="auth-subtitle">حساب کاربری جدید ایجاد کنید</p>
+                            </div>
+                            
+                            <form id="register-form-element">
+                                <div class="mb-3">
+                                    <label for="register-name" class="form-label">نام و نام خانوادگی</label>
+                                    <input type="text" class="form-control" id="register-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-email" class="form-label">ایمیل</label>
+                                    <input type="email" class="form-control" id="register-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-password" class="form-label">رمز عبور</label>
+                                    <input type="password" class="form-control" id="register-password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-confirm-password" class="form-label">تکرار رمز عبور</label>
+                                    <input type="password" class="form-control" id="register-confirm-password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-role" class="form-label">نقش</label>
+                                    <select class="form-select" id="register-role" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="student">دانشجو</option>
+                                        <option value="admin">مدرس</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mb-3">ثبت نام</button>
+                            </form>
+                            
+                            <div class="auth-footer">
+                                <p>قبلاً ثبت نام کرده‌اید؟ <a href="#" id="show-login">وارد شوید</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Dashboard -->
+                <div id="student-dashboard" class="container mt-4" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="welcome-section">
+                                <h1 class="page-title">داشبورد دانشجو</h1>
+                                <p class="page-subtitle">خوش آمدید! آماده شروع آزمون هستید؟</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-primary">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="total-exams">0</h3>
+                                    <p>کل آزمون‌ها</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="completed-exams">0</h3>
+                                    <p>آزمون‌های تکمیل شده</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="pending-exams">0</h3>
+                                    <p>آزمون‌های در انتظار</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-info">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="average-score">0%</h3>
+                                    <p>میانگین نمرات</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available Exams -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h3>آزمون‌های موجود</h3>
+                                    <p>آزمون‌هایی که می‌توانید شرکت کنید</p>
+                                </div>
+                                <div id="available-exams" class="exam-list">
+                                    <!-- Exams will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Results -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h3>نتایج اخیر</h3>
+                                    <p>آخرین نمرات آزمون‌های شما</p>
+                                </div>
+                                <div id="recent-results" class="results-list">
+                                    <!-- Results will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exam Interface -->
+                <div id="exam-interface" class="container-fluid" style="display: none;">
+                    <div class="exam-header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2 id="exam-title">عنوان آزمون</h2>
+                                <p id="exam-description">توضیحات آزمون</p>
+                            </div>
+                            <div class="col-md-4 text-start">
+                                <div class="exam-timer">
+                                    <i class="fas fa-clock me-2"></i>
+                                    <span id="timer-display">00:00:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="question-container">
+                                <div class="question-header">
+                                    <span class="question-number">سوال <span id="current-question">1</span> از <span id="total-questions">10</span></span>
+                                    <div class="question-progress">
+                                        <div class="progress">
+                                            <div class="progress-bar" id="question-progress-bar" style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="question-content">
+                                    <div id="question-text" class="question-text">
+                                        <!-- Question text will be loaded here -->
+                                    </div>
+                                    
+                                    <div id="question-options" class="question-options">
+                                        <!-- Question options will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3">
+                            <div class="exam-sidebar">
+                                <div class="question-navigation">
+                                    <h5>ناوبری سوالات</h5>
+                                    <div id="question-nav-grid" class="question-nav-grid">
+                                        <!-- Question navigation will be loaded here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="exam-actions">
+                                    <button class="btn btn-outline-primary w-100 mb-2" id="prev-question" disabled>
+                                        <i class="fas fa-arrow-right me-2"></i>
+                                        سوال قبلی
+                                    </button>
+                                    <button class="btn btn-primary w-100 mb-2" id="next-question">
+                                        سوال بعدی
+                                        <i class="fas fa-arrow-left ms-2"></i>
+                                    </button>
+                                    <button class="btn btn-success w-100" id="submit-exam" style="display: none;">
+                                        <i class="fas fa-paper-plane me-2"></i>
+                                        ارسال آزمون
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div id="admin-dashboard" class="container mt-4" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="welcome-section">
+                                <h1 class="page-title">پنل مدیریت</h1>
+                                <p class="page-subtitle">مدیریت آزمون‌ها و مشاهده نتایج دانشجویان</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-primary">
+                                    <i class="fas fa-list-alt"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="admin-total-exams">0</h3>
+                                    <p>کل آزمون‌ها</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-info">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="admin-total-students">0</h3>
+                                    <p>دانشجویان</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-success">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="admin-submissions">0</h3>
+                                    <p>پاسخ‌های ارسالی</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-warning">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="admin-avg-score">0%</h3>
+                                    <p>میانگین کلی</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Actions -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h3>مدیریت آزمون‌ها</h3>
+                                    <button class="btn btn-success" id="create-exam-btn">
+                                        <i class="fas fa-plus me-2"></i>
+                                        ایجاد آزمون جدید
+                                    </button>
+                                </div>
+                                <div id="admin-exams-list" class="admin-exams">
+                                    <!-- Admin exams will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create/Edit Exam Modal -->
+                <div class="modal fade" id="examModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="examModalTitle">ایجاد آزمون جدید</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="exam-form">
+                                    <div class="mb-3">
+                                        <label for="exam-title-input" class="form-label">عنوان آزمون</label>
+                                        <input type="text" class="form-control" id="exam-title-input" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exam-description-input" class="form-label">توضیحات</label>
+                                        <textarea class="form-control" id="exam-description-input" rows="3"></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="exam-duration" class="form-label">مدت زمان (دقیقه)</label>
+                                            <input type="number" class="form-control" id="exam-duration" min="1" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="exam-total-marks" class="form-label">نمره کل</label>
+                                            <input type="number" class="form-control" id="exam-total-marks" min="1" required>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                                <hr>
+                                
+                                <div class="questions-section">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6>سوالات آزمون</h6>
+                                        <button class="btn btn-outline-primary btn-sm" id="add-question-btn">
+                                            <i class="fas fa-plus me-1"></i>
+                                            افزودن سوال
+                                        </button>
+                                    </div>
+                                    <div id="questions-container">
+                                        <!-- Questions will be added here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                <button type="button" class="btn btn-primary" id="save-exam-btn">ذخیره آزمون</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Modal -->
+                <div class="modal fade" id="resultsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">نتایج آزمون</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" id="results-content">
+                                <!-- Results will be loaded here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    
+    <!-- Custom Scripts -->
+    <script type="module" src="src/js/app.js"></script>
+</body>
+</html>
